@@ -1,5 +1,8 @@
+import java.util.Scanner;
+
 public class Connect_Four {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         Board board = new Board();
 
         board.drop(4, 'O');
@@ -12,5 +15,7 @@ public class Connect_Four {
         System.out.println(String.valueOf(board.checkWin('O')));
         System.out.printf(String.valueOf(board.checkWin('X')));
 
+        Player playerOne = new Player("test", 'O');
+        playerOne.chooseColumn(scanner);
     }
 }
