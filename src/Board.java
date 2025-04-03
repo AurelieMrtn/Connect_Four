@@ -77,4 +77,14 @@ class Board {
 
         return false;
     }
+
+    protected boolean isFull() {
+        for (int j = 0; j < COLUMNS; j++) {
+            if (grid[0][j] == EMPTY) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
