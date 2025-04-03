@@ -5,7 +5,7 @@ class Board {
     private final char EMPTY = '.';
 
     // Constructor: initialize empty board
-    public Board() {
+    protected Board() {
         grid = new char[ROWS][COLUMNS];
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLUMNS; j++) {
