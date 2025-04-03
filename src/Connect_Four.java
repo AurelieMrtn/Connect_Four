@@ -5,17 +5,51 @@ public class Connect_Four {
         Scanner scanner = new Scanner(System.in);
         Board board = new Board();
 
-        board.drop(4, 'O');
-        board.drop(2, 'X');
-        board.drop(4, 'O');
-        board.drop(4, 'O');
-        board.drop(4, 'O');
+        // Create two players
+        System.out.print("Enter first player's name: ");
+        Player playerOne = new Player (scanner.nextLine(), 'X');
 
-        board.displayBoard();
-        System.out.println(String.valueOf(board.checkWin('O')));
-        System.out.printf(String.valueOf(board.checkWin('X')));
+        System.out.print("Enter second player's name: ");
+        Player playerTwo = new Player (scanner.nextLine(), 'O');
 
-        Player playerOne = new Player("test", 'O');
-        playerOne.chooseColumn(scanner);
+        Player currentPlayer = playerOne;
+        boolean gameWon = false;
+        boolean gameOver = false;
+
+        while (!gameWon && !gameOver) {
+            board.displayBoard();
+
+            // Player plays
+            int column;
+            boolean validMove;
+            do {
+                column = currentPlayer.chooseColumn(scanner);
+                validMove = board.drop(column, currentPlayer.getSymbol());
+
+                if (!validMove) {
+                    System.out.println("Column is full! Choose another one.");
+                }
+            } while (!validMove);
+
+            // Check if there is a win and if so print it
+            if (board.checkWin(currentPlayer.getSymbol())) {
+                board.displayBoard();
+                System.out.println("Good job! " + currentPlayer.getName() + " (" +currentPlayer.getSymbol() + ")" + " wins!");
+                gameWon = true;
+            }
+
+            // If no win switch players
+            currentPlayer = currentPlayer == playerOne ? playerTwo : playerOne;
+
+            // Check if board is full
+            gameOver = board.isFull();
+            if (gameOver) {
+                board.displayBoard();
+                System.out.println("It's a tie!");
+            }
+        }
+
+            // Close scanner to avoid memory leaks
+            scanner.close();
     }
 }
