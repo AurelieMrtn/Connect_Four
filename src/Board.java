@@ -1,4 +1,4 @@
-class Board {
+public class Board {
     private char[][] grid;
     private final int ROWS = 6;
     private final int COLUMNS = 7;
