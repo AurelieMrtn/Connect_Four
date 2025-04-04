@@ -13,23 +13,21 @@ public class Connect_Four {
         System.out.print("Enter first player's name: ");
         Player playerOne = new Player (scanner.nextLine(), 'X');
 
-        Player playerTwo;
-        switch (gameMode) {
-            case 1:
-                System.out.print("Enter second player's name: ");
-                playerTwo = new Player (scanner.nextLine(), 'O');
-                break;
-            case 2:
-                System.out.print("You are playing against a random machine!");
-                playerTwo = new SimpleAIPlayer('O');
-                break;
-//            case 3:
-//                System.out.print("You are playing against the AI!");
-//                playerTwo = new AIPlayer('O');
-//                break;
-            default:
-                throw new IllegalStateException("Unexpected mode: " + gameMode);
-        }
+        Player playerTwo = switch (gameMode) {
+            case 1 -> {
+                System.out.println("Enter second player's name: ");
+                yield new Player(scanner.nextLine(), 'O');
+            }
+            case 2 -> {
+                System.out.println("You are playing against a random machine!");
+                yield new SimpleMachinePlayer('O');
+            }
+            case 3 -> {
+                System.out.println("You are playing against the AI!");
+                yield new AIPlayer('O');
+            }
+            default -> throw new IllegalStateException("Unexpected mode: " + gameMode);
+        };
 
         Player currentPlayer = playerOne;
         boolean gameWon = false;
@@ -90,6 +88,7 @@ public class Connect_Four {
             }
             gameMode = scanner.nextInt();
         } while (gameMode < 1 || gameMode > 3);
+        scanner.nextLine();
 
         return gameMode;
     }

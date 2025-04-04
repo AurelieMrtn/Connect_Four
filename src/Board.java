@@ -3,6 +3,7 @@ public class Board {
     private final int ROWS = 6;
     private final int COLUMNS = 7;
     private final char EMPTY = '.';
+    private static Board instance;
 
     // Constructor: initialize empty board
     protected Board() {
@@ -11,6 +12,15 @@ public class Board {
             for (int j = 0; j < COLUMNS; j++) {
                 grid[i][j] = EMPTY;
             }
+        }
+        instance = this;
+    }
+
+    // Copy constructor
+    public Board(Board other) {
+        this.grid = new char[ROWS][COLUMNS];
+        for (int i = 0; i < ROWS; i++) {
+            System.arraycopy(other.grid[i], 0, this.grid[i], 0, COLUMNS);
         }
     }
 
@@ -24,6 +34,10 @@ public class Board {
             }
         }
         return false;
+    }
+
+    protected static Board getInstance() {
+        return instance;
     }
 
     // Display board
@@ -40,6 +54,10 @@ public class Board {
     // Victory conditions (horizontal, vertical, diagonal)
     protected boolean checkWin(char symbol) {
         return checkHorizontal(symbol) || checkVertical(symbol) || checkDiagonal(symbol);
+    }
+
+    protected boolean isColumnAvailable(int column) {
+        return grid[0][column] == EMPTY;
     }
 
     private boolean checkHorizontal(char symbol) {
@@ -74,7 +92,6 @@ public class Board {
                 if (grid[i][j] == symbol && grid[i + 1][j + 1] == symbol && grid[i + 2][j + 2] == symbol && grid[i + 3][j + 3] == symbol) return true;
             }
         }
-
         return false;
     }
 
@@ -86,5 +103,4 @@ public class Board {
         }
         return true;
     }
-
 }
