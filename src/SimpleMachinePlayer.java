@@ -1,10 +1,10 @@
 import java.util.Scanner;
 import java.util.Random;
 
-public class SimpleAIPlayer extends Player {
+public class SimpleMachinePlayer extends Player {
     private Random random;
 
-    protected SimpleAIPlayer(char symbol) {
+    protected SimpleMachinePlayer(char symbol) {
         super("SimpleAI", symbol);
         this.random = new Random();
     }

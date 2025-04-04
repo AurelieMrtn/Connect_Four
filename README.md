@@ -7,7 +7,7 @@ This is a simple Connect 4 game implemented in Java. The project consists of two
 
 The game is played in a 6-row by 7-column grid, following the classic Connect 4 rules.
 
-## 🛠 Features
+## Features
 - Console-based interface for easy play.
 - Valid move checks to prevent invalid placements.
 - Automatic win detection (horizontal, vertical, diagonal victory conditions).
