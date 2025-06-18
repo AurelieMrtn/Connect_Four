@@ -3,6 +3,7 @@ import java.util.Scanner;
 public class AIPlayer extends Player {
     private static final int MAX_DEPTH = 5;
 
+    // Constructor
     protected AIPlayer(char symbol) {
         super("AI", symbol);
     }
@@ -11,17 +12,20 @@ public class AIPlayer extends Player {
         return super.getSymbol();
     }
 
+    // Override chooseColumn from super: Player, to choose column from minimax algo
     @Override
     protected int chooseColumn(Scanner scanner) {
         int bestScore = Integer.MIN_VALUE;
         int bestColumn = -1;
         Board board = Board.getInstance();
 
+        // Test best move option for each column
         for (int col = 0; col < 7; col++) {
             if (board.isColumnAvailable(col)) {
                 Board tempBoard = new Board(board);
+                // AI tries one column
                 tempBoard.drop(col, getSymbol());
-
+                // Simulates player's next move
                 int score = minimax(tempBoard, MAX_DEPTH, false, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
                 if (score > bestScore) {
@@ -37,10 +41,12 @@ public class AIPlayer extends Player {
         char aiSymbol = getSymbol();
         char playerSymbol = (aiSymbol == 'X') ? 'O' : 'X';
 
-        if (board.checkWin(aiSymbol)) return 1000;
-        if (board.checkWin(playerSymbol)) return -1000;
-        if (board.isFull() || depth == 0) return evaluateBoard(board, aiSymbol);
+        // Check when to stop recursive minimax call, return -1000, 0 or 1000
+        if (board.checkWin(playerSymbol) || board.checkWin(aiSymbol) || board.isFull() || depth == 0){
+            return evaluateBoard(board, aiSymbol, playerSymbol);
+        }
 
+        // Simulate AI's moves: tries to maximize the score
         if (isMaximizing) {
             int maxScore = Integer.MIN_VALUE;
             for (int col = 0; col < 7; col++) {
@@ -55,7 +61,10 @@ public class AIPlayer extends Player {
                 }
             }
             return maxScore;
-        } else {
+        }
+
+        // Simulate player's moves: tries to minimize the score
+        else {
             int minScore = Integer.MAX_VALUE;
             for (int col = 0; col < 7; col++) {
                 if (board.isColumnAvailable(col)) {
@@ -72,8 +81,8 @@ public class AIPlayer extends Player {
         }
     }
 
-    private int evaluateBoard(Board board, char aiSymbol) {
-        char playerSymbol = (aiSymbol == 'X') ? 'O' : 'X';;
+    // Evaluate board: give different scores to different moves
+    private int evaluateBoard(Board board, char aiSymbol, char playerSymbol) {
         int score = 0;
 
         if (board.checkWin(aiSymbol)) score += 1000;
